@@ -3,18 +3,20 @@ import requests
 
 st.title("🤖 Hugging Face Chat Assistant")
 
-user_input = st.text_input(You, )
+API_URL = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct"
+headers = {"Authorization": f"Bearer {st.secrets['HF_TOKEN']}"}
 
-if user_input
-    API_URL = httpsapi-inference.huggingface.comodelsmeta-llamaMeta-Llama-3-8B-Instruct
-    headers = {Authorization fBearer {st.secrets['HF_TOKEN']}}
-    payload = {inputs user_input}
-    
+def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
 
-    try
-        result = response.json()
-        output = result[0]['generated_text']
-        st.markdown(fAssistant {output})
-    except
-        st.error(Something went wrong with the Hugging Face API.)
+user_input = st.text_input("You:", "")
+
+if user_input:
+    with st.spinner("Thinking..."):
+        output = query({"inputs": user_input})
+        try:
+            generated_text = output[0]["generated_text"]
+            st.write(f"**Assistant:** {generated_text}")
+        except:
+            st.error("⚠️ Error from Hugging Face API. Check your model or token.")
