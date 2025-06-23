@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.title(🤖 Hugging Face Chat Assistant)
+st.title("🤖 Hugging Face Chat Assistant")
 
 user_input = st.text_input(You, )
 
